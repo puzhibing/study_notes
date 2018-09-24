@@ -1,0 +1,745 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>文档管理</title>
+    <link rel="stylesheet" href="font-awesome-4.7.0/css/font-awesome.min.css">
+    <style type="text/css">
+        *{
+            padding: 0px;
+            margin: 0px;
+            font-size: 13px;
+        }
+        body{
+            overflow: hidden;
+        }
+        ul{
+            list-style-type: none;
+        }
+
+        .menuBar{
+            height: 8vh;
+            width: 100vw;
+            box-shadow: 0px 0px 2px 2px darkgrey;
+            margin-bottom: 2vh;
+            background-color: #F9FAFB;
+        }
+
+        .menuBar .log{
+            width: 19.8vw;
+            float: left;
+        }
+
+
+
+        .menuBar .menu{
+            text-align: center;
+        }
+        .menuBar .menu div{
+            display: inline-block;
+            margin: 0px 20px;
+            padding: 0.1vh 10px;
+            border-radius: 2px;
+            border-bottom: 3px solid #F9FAFB;
+        }
+        .menuBar .menu div:hover{
+            border-bottom: 3px solid #4E99FF;
+            color: #4E99FF;
+            cursor: pointer;
+        }
+        .menuBar .menu .managementDocument{
+            border-bottom: 3px solid #4E99FF;
+            color: #4E99FF;
+        }
+        .menuBar .menu div i{
+            font-size: 2.5rem;
+            color: #626262;
+            margin-top: 5px;
+        }
+        .menuBar .menu div .fa-home{
+            font-size: 1.6rem;
+        }
+
+
+
+        .panel>div{
+            float: left;
+            height: 89.8vh;
+            border-top: #D9D9D9 0.2vh solid;
+        }
+        .panel .treeMenu{
+            width: 19.8vw;
+            border-right: #D9D9D9 0.2vh solid;
+        }
+        .panel .treeMenu .minmenu , .panel .operate .minmenu{
+            margin-bottom: 10px;
+            border: 1px solid #D9D9D9;
+            text-align: right;
+            width: 100%;
+            height: 4vh;
+        }
+        .panel .treeMenu .minmenu i{
+            margin: 1vh 0.6vw;
+            color: #626262;
+            font-size: 15px;
+        }
+        .panel .treeMenu .minmenu i:hover{
+            color: #FD7209;
+        }
+        .panel .treeMenu .minmenu ul{
+            display: none;
+            position: absolute;
+            z-index: 100;
+            width: 6vw;
+            height: 100px;
+            margin-left: 13.2vw;
+            box-shadow: 0px 1px 2px 2px #D9D9D9;
+            background-color: #FFFFFF;
+            border-radius: 2px;
+            text-align: left;
+        }
+        .panel .treeMenu .minmenu ul li{
+            padding: 5px 8px;
+        }
+        .panel .treeMenu .minmenu ul li:hover{
+            background-color: #F2F5F6;
+            cursor: pointer;
+            color: #FD7209;
+        }
+
+
+
+        .panel .treeMenu .sort{
+            text-align: left;
+        }
+        .panel .treeMenu .sort ul li{
+            padding-top: 10px;
+            padding-bottom: 10px;
+            padding-left: 15px;
+            border-left: 3px solid #FFFFFF;
+        }
+        .panel .treeMenu .sort ul li:hover{
+            border-left: 3px solid #4E99FF;
+            background-color: #EBF0FE;
+            color: #4E99FF;
+            cursor: pointer;
+        }
+        .panel .treeMenu .sort ul li input{
+            width: 17vw;
+            border-radius: 2px;
+            border: 1px solid #D9D9D9;
+            height: 20px;
+        }
+
+
+
+
+        .panel .operate{
+            width: 80vw;
+            overflow-y: auto;
+        }
+
+        .panel .operate .navigation{
+            float: left;
+            margin-left: 10px;
+        }
+        .panel .operate .navigation span{
+            line-height: 4.5vh;
+        }
+        .panel .operate .navigation span:hover{
+            color: #4E99FF;
+            cursor: pointer;
+        }
+
+        .panel .operate .minmenu div{
+            display: inline-block;
+            margin: 3px 10px;
+            padding: 2px 10px;
+            border-radius: 2px;
+            border: 1px solid #F9FAFB;
+        }
+        .panel .operate .minmenu div:hover{
+            border: 1px solid #E2E2E2;
+            color: #4E99FF;
+            cursor: pointer;
+        }
+        .panel .operate .minmenu div i{
+            font-size: 1rem;
+            color: #626262;
+            margin-right: 5px;
+        }
+        .panel .operate .minmenu div .fa-home{
+            font-size: 1.1rem;
+        }
+
+
+        .panel .operate .operate_content div{
+            padding: 30px 50px;
+            margin-top: 20px;
+            margin-left: 20px;
+            float: left;
+            text-align: center;
+        }
+        .panel .operate .operate_content div:hover{
+            background-color: #ECF1FF;
+        }
+        .panel .operate .operate_content div i{
+            font-size: 6em;
+            margin-bottom: 5px;
+        }
+        .panel .operate .operate_content div .fa-folder{
+            color: #F8C92A;
+        }
+        .panel .operate .operate_content div .fa-file-text{
+            color: #4E99FF;
+        }
+        .panel .operate .operate_content div span input{
+            width: 60px;
+            border-radius: 2px;
+            border: 1px solid #D9D9D9;
+            height: 20px;
+            text-align: center;
+        }
+    </style>
+</head>
+<body>
+<div class="menuBar">
+    <div class="log">
+        11111
+    </div>
+    <div class="menu">
+        <div class="readingDocument">
+            <i class="fa fa-newspaper-o"></i><br>
+            <span>阅读文档</span>
+        </div>
+        <div class="managementDocument">
+            <i class="fa fa-paste"></i><br>
+            <span>管理文档</span>
+        </div>
+    </div>
+</div>
+<div class="panel">
+    <div class="treeMenu">
+        <div class="minmenu">
+            <i class="fa fa-align-justify"></i>
+            <ul class="divSort">
+                <li class="addSort">添加分类</li>
+                <li class="renameSort">重命名</li>
+                <li class="deleteSort">删除分类</li>
+            </ul>
+        </div>
+        <div class="sort">
+            <input class="sortId" type="hidden" value="">
+            <ul>
+
+            </ul>
+        </div>
+    </div>
+    <div class="operate">
+        <div class="navigation">
+            <!--<span class="nav">首页</span>-->
+        </div>
+        <div class="minmenu">
+            <div>
+                <i class="fa fa-home"></i>
+                <span>首页</span>
+            </div>
+            <div class="addFolder">
+                <i class="fa fa-folder"></i>
+                <span>新建文件夹</span>
+            </div>
+            <div class="addFile">
+                <i class="fa fa-file-text-o"></i>
+                <span>新建文档</span>
+            </div>
+            <div class="rename">
+                <i class="fa fa-cog"></i>
+                <span>重命名</span>
+            </div>
+            <div class="close">
+                <i class="fa fa fa-close"></i>
+                <span>删除</span>
+            </div>
+        </div>
+        <input type="hidden" class="superId" />
+        <input type="text" class="fileId" />
+        <div class="operate_content">
+
+        </div>
+
+    </div>
+</div>
+</body>
+<script type="text/javascript" src="js/jquery.js"></script>
+<script type="text/javascript">
+    $(document).ready(function () {
+        
+        /******************* 菜单 start ********************/
+        $(".readingDocument").click(function () {
+            showReadingDocument();
+        });
+        /******************* 菜单 end ********************/
+
+        /******************* 分类 start *******************/
+
+        $(".addSort").click(function(){
+            addSort();
+        });
+
+        $(".refreshSort").click(function(){
+            refreshSort();
+        });
+
+
+        $(".fa-align-justify").click(function(){
+            showSort();
+        });
+
+        $(".renameSort").click(function () {
+            rename();
+        });
+
+        $(".deleteSort").click(function () {
+            deleteSort();
+        });
+
+
+        selectAllSort();//加载所有分类
+
+        /******************* 分类 end *******************/
+
+
+        /******************* 文件夹 start *******************/
+        $(".addFolder").click(function () {
+            addFolder();
+        });
+
+        $(".close").click(function () {
+            deleteFiles();
+        });
+
+        $(".rename").click(function () {
+            filesRename();
+        });
+        $(".addFile").click(function(){
+            addFile();
+        });
+
+        /******************* 文件夹 end *******************/
+
+
+    });
+
+    /******************* 菜单 start ********************/
+    function showReadingDocument(){
+        $(location).attr('href', 'home.html');
+    }
+
+    /******************* 菜单 end ********************/
+
+
+    /******************* 分类 start *******************/
+
+    //点击添加分类处理函数
+    function addSort(){
+        showSort();
+        $(".sort ul li").removeAttr("style");
+        $(".sortId").val("");
+        var str = '<li><input class="newSort" type="text" value="新建分类" autofocus="autofocus"></li>';
+        $(".sort ul").append(str);
+
+        //设置input失去焦点触发
+        $(".newSort").blur(function(){
+            sortBlur();
+        });
+    }
+
+    //定义新添加内容输入框失去焦点处理函数
+    function sortBlur(){
+        var id = $(".newSort").parent("li").attr("id");
+        var value = $(".newSort").val();
+        var url = "";
+        if(id != undefined){
+            url = "/updateSort";
+        }else{
+            url = "/insertSort";
+        }
+
+        //ajax处理
+        $.ajax({
+            url : url,
+            type : "post",
+            data : {
+                id : id,
+                sort_name : value
+            },
+            success : function (data) {
+                if(data.b == true){
+                    selectAllSort();
+                }
+            }
+        });
+
+    }
+
+
+    //选中分类处理函数
+    function chooseSort(e){
+        $(".superId").val("");
+        $(".navigation").html("<span class='nav'>首页</span>");
+        $(e).siblings("li").removeAttr("style");
+        $(e).css({
+            "border-left": "3px solid #4E99FF",
+            "background-color": "#EBF0FE",
+            "color": "#4E99FF",
+        });
+        $(".sortId").val($(e).attr("id"));
+
+        selectFiles();//加载对应的文件数据
+    }
+
+    //设置弹窗显示和隐藏
+    function showSort() {
+        var a = $(".divSort");
+        if(a.css("display") == "block"){
+            a.hide();
+            $(".fa-align-justify").removeAttr("style");
+        }else{
+            a.show();
+            $(".fa-align-justify").css({"color":"#FD7209"});
+        }
+    }
+
+
+    /**
+     * 获取所有分类数据
+     */
+    function selectAllSort(){
+        $.ajax({
+            url : "/selectAllSort",
+            type : "post",
+            success : function (data) {
+                if(data.b == true){
+                    var list = data.result;
+                    $(".sort ul").html("");
+                    var str = "";
+                    for(var i in list){
+                        str += '<li id="' + list[i].id + '">'+ list[i].sort_name + '</li>';
+                    }
+                    $(".sort ul").append(str);
+                    chooseSort($("#" + list[0].id));//默认选中第一项数据
+                    //添加点击处理函数
+                    $(".sort ul li").click(function () {
+                        chooseSort(this);
+                    });
+                }
+            }
+        });
+    }
+
+    //点击重命名执行函数
+    function rename() {
+        var id = $(".sortId").val();
+        var value = $("#" + id).html();
+        var str = '<input class="newSort" type="text" value="' + value + '" autofocus="autofocus"/>';
+        $("#" + id).html(str);
+        //设置input失去焦点触发
+        $(".newSort").blur(function(){
+            sortBlur();
+        });
+        showSort();
+    }
+    
+
+    /**
+     * 点击删除分类处理函数
+     */
+    function deleteSort(){
+        var id = $(".sortId").val();
+        if(id == ""){
+            alert("请选择需要删除的分类")
+            showSort();
+            return;
+        }
+        $.ajax({
+            url : "/deleteSort",
+            type : "post",
+            data : {
+                id : id
+            },
+            success : function (data) {
+                if(data.b == true){
+                    selectAllSort();
+                }
+            }
+        });
+        showSort();
+    }
+    /******************* 分类 end *******************/
+
+
+
+
+
+
+    /******************* 文件 start *******************/
+    //点击添加文件夹处理函数
+    function addFolder(){
+        var str = '<div><i class="fa fa-folder"></i><br><span><input class="newInput" type="text" value="新建文件夹" autofocus="autofocus"></span></div>';
+        $(".operate_content").append(str);
+
+        //设置input失去焦点触发
+        $(".newInput").blur(function(){
+            inputBlur("0");
+        });
+    }
+
+
+
+    //点击添加文件处理函数
+    function addFile(){
+        var str = '<div><i class="fa fa-file-text"></i><br><span><input class="newInput" type="text" value="新建文件" autofocus="autofocus"></span></div>';
+        $(".operate_content").append(str);
+
+        //设置input失去焦点触发
+        $(".newInput").blur(function(){
+            inputBlur("1");
+        });
+    }
+
+
+    //定义新添加内容输入框失去焦点处理函数
+    function inputBlur(type){
+        var value = $(".newInput").val();
+        var superId = $(".superId").val();
+        var sortId = $(".sortId").val();
+        var id = $(".fileId").val();
+        var url = null;
+        if(id == ""){
+            url = "/insertFiles";
+        }else{
+            url = "/updateFiles";
+        }
+        //ajax处理
+        $.ajax({
+            url : url,
+            type : "post",
+            data : {
+                id : id,
+                sortId : sortId,
+                superId : superId,
+                file_name : value,
+                type : type
+            },
+            success : function (data) {
+                if(data.b == true){
+                    $(".fileId").val("");
+                    selectFiles();
+                }
+            }
+        });
+    }
+
+
+    //根据父层id或分类id获取文件数据
+    function selectFiles(){
+        var superId = $(".superId").val();
+        var sortId = $(".sortId").val();
+        $.ajax({
+            url : "/selectFilesBySuperIdOrSortId",
+            type : "post",
+            data : {
+                superId : superId,
+                sort_id : sortId
+            },
+            success :function (data) {
+                $(".operate_content").html("");
+                if(data.b == true){
+                    var files = data.result;
+                    var str = "";
+                    if(files.length != 0){
+                        for(var i in files){
+                            if(files[i].type == "0"){
+                                str += '<div class="file" id="' + files[i].id + '"type="' + files[i].type + '"><i class="fa fa-folder"></i><br><span>' + files[i].file_name + '</span></div>'
+                            }else{
+                                str += '<div class="file" id="' + files[i].id + '"type="' + files[i].type + '"><i class="fa fa-file-text"></i><br><span>' + files[i].file_name + '</span></div>'
+                            }
+                        }
+                        $(".operate_content").append(str);
+                        $(".file").click(function () {
+                            selectedFile(this);
+                        });
+                        var files = $(".file");
+                        for(var i in files){
+                            if($(files[i]).attr("type") == "0"){
+                                $(files[i]).dblclick(function () {
+                                    folderLowerLevel(this);
+                                });
+                            }else{
+                                $(files[i]).dblclick(function () {
+                                    fileLowerLevel(this);
+                                });
+                            }
+                        }
+                    }
+                }
+            }
+        });
+    }
+
+
+
+    //添加文件选中处理函数
+    function selectedFile(e){
+        $(e).siblings("div").removeAttr("style");
+        $(e).css({
+            "background-color": "#ECF1FF"
+        });
+        $(".fileId").val($(e).attr("id"));
+    }
+
+
+    //双击文件夹进入下层处理函数
+    function folderLowerLevel(e){
+        var id = $(e).attr("id");
+        $(".superId").val(id);
+        var value = $(e).children("span").html();
+        var str = '>><span class="nav" id="' + id + '">' + value + '</span>';
+        $(".navigation").append(str);
+        $(".fileId").val("");
+        selectFiles();
+        var nav = $(".nav");
+        if(nav.length != 0){
+            for(var i in nav){
+                if($(nav[i]).html() == "首页"){
+                    $(nav[i]).click(function () {
+                        navselect(this , 0);
+                    });
+                }else{
+                    $(nav[i]).click(function () {
+                        navselect(this , 1);
+                    });
+                }
+            }
+        }
+
+    }
+
+    //点击导航实现数据刷新
+    function navselect(e , t) {
+        if(t == 0){//首页导航处理
+            $(".superId").val("");
+            $(".navigation").html("<span class='nav'>首页</span>");
+            selectFiles();
+        }else{//不是首页导航处理
+            $(".superId").val($(e).attr("id"));
+            selectFiles();
+            selectAncestor();
+        }
+    }
+
+
+    //获取当前层文件夹的祖先数据
+    function selectAncestor(){
+        var id = $(".superId").val();
+        $.ajax({
+            url : "/selectAncestor",
+            type : "post",
+            data : {
+                id : id
+            },
+            success : function (data) {
+                if(data.b == true){
+                    var files = data.result;
+                    var str = "<span class='nav'>首页</span>";
+                    for(var i in files){
+                        str += ">><span class='nav' id='" + files[i].id + "' type='" + files[i].type + "'>" + files[i].file_name + "</span>";
+                    }
+                    $(".navigation").html(str);
+                    var nav = $(".nav");
+                    if(nav.length != 0){
+                        for(var i in nav){
+                            if($(nav[i]).html() == "首页"){
+                                $(nav[i]).click(function () {
+                                    navselect(this , 0);
+                                });
+                            }else{
+                                $(nav[i]).click(function () {
+                                    navselect(this , 1);
+                                });
+                            }
+                        }
+                    }
+                }
+            }
+        });
+    }
+
+
+    //点击文件跳转到详情文档页面处理函数
+    function fileLowerLevel(e){
+        window.open("document.html?filesId=" + $(e).attr("id"));
+    }
+
+
+    //删除文件或文件夹
+    function deleteFiles(){
+        var id = $(".fileId").val();
+        if(id == ""){
+            alert("请选择需要删除的文件");
+        }else{
+            $.ajax({
+                url : "/deleteFilesById",
+                type : "post",
+                data : {
+                    id : id
+                },
+                success : function (data) {
+                    if(data.b == true){
+                        selectFiles();
+                    }
+                }
+            });
+        }
+    }
+    
+    
+    //点击重命名处理函数
+    function filesRename() {
+        var id = $(".fileId").val();
+        if(id == ""){
+            alert("请选择需要操作的文件");
+        }else{
+            var div = $("#" + id);
+            var value = div.children("span").html();
+            var type = div.attr("type");
+            if(type == "0"){
+                str = '<input class="newInput" type="text" value="' + value + '" autofocus="autofocus">';
+            }else{
+                str = '<input class="newInput" type="text" value="' + value + '" autofocus="autofocus">';
+            }
+            $("#" + id).children("span").html(str);
+            //设置input失去焦点触发
+            $(".newInput").blur(function(){
+                if(type == "0"){
+                    inputBlur("0");
+                }else{
+                    inputBlur("1");
+                }
+
+            });
+
+        }
+    }
+
+
+    /******************* 文件 end *******************/
+
+
+
+
+
+
+    /******************* 公共部分 end *******************/
+</script>
+</html>

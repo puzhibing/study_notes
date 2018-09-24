@@ -1,0 +1,601 @@
+<!DOCTYPE html>
+<html lang="zh">
+<head>
+    <meta charset="UTF-8">
+    <title>文档编辑</title>
+    <link rel="stylesheet" href="font-awesome-4.7.0/css/font-awesome.min.css">
+    <style type="text/css">
+        * {
+            margin: 0px;
+            font-size: 13px;
+        }
+
+        body {
+            overflow: hidden;
+        }
+
+        ul {
+            list-style-type: none;
+        }
+
+        .menuBar {
+            height: 8vh;
+            width: 100vw;
+            box-shadow: 0px 0px 2px 2px darkgrey;
+            margin-bottom: 2vh;
+            background-color: #F9FAFB;
+        }
+
+        .menuBar .log {
+            width: 19.8vw;
+            float: left;
+        }
+
+        .menuBar .menu {
+            text-align: center;
+        }
+
+        .menuBar .menu div {
+            display: inline-block;
+            margin: 0px 20px;
+            padding: 0.1vh 10px;
+            border-radius: 2px;
+            border-bottom: 3px solid #F9FAFB;
+        }
+
+        .menuBar .menu div:hover {
+            border-bottom: 3px solid #4E99FF;
+            color: #4E99FF;
+            cursor: pointer;
+        }
+        .menuBar .menu .managementDocument{
+            border-bottom: 3px solid #4E99FF;
+            color: #4E99FF;
+        }
+
+        .menuBar .menu div i {
+            font-size: 2.5rem;
+            color: #626262;
+            margin-top: 5px;
+        }
+
+        .menuBar .menu div .fa-home {
+            font-size: 1.6rem;
+        }
+
+        .panel > div {
+            float: left;
+            height: 89.8vh;
+            border-top: #D9D9D9 0.2vh solid;
+        }
+
+        .panel .treeMenu {
+            width: 19.8vw;
+            border-right: #D9D9D9 0.2vh solid;
+        }
+
+        .panel .treeMenu .minmenu {
+            margin-bottom: 10px;
+            border-top: 1px solid #D9D9D9;
+            border-bottom: 1px solid #D9D9D9;
+            border-right: 1px solid #D9D9D9;
+            text-align: right;
+            width: 100%;
+            height: 4vh;
+        }
+
+        .panel .treeMenu .minmenu i {
+            margin: 1vh 0.6vw;
+            color: #626262;
+            font-size: 15px;
+        }
+
+        .panel .treeMenu .minmenu i:hover {
+            color: #FD7209;
+        }
+
+        .panel .treeMenu .minmenu ul {
+            padding: 0px;
+            display: none;
+            position: absolute;
+            z-index: 100;
+            width: 6vw;
+            height: 110px;
+            margin-left: 13.2vw;
+            box-shadow: 0px 1px 2px 2px #D9D9D9;
+            background-color: #FFFFFF;
+            border-radius: 2px;
+            text-align: left;
+        }
+
+        .panel .treeMenu .minmenu ul li {
+            padding: 5px 8px;
+        }
+
+        .panel .treeMenu .minmenu ul li:hover {
+            background-color: #F2F5F6;
+            cursor: pointer;
+            color: #FD7209;
+        }
+
+        .panel .treeMenu .sort {
+            text-align: left;
+        }
+        .panel .treeMenu .sort ul{
+            padding: 0px;
+        }
+        .panel .treeMenu .sort ul li {
+            padding-top: 10px;
+            padding-bottom: 10px;
+            padding-left: 15px;
+            border-left: 3px solid #FFFFFF;
+        }
+
+        .panel .treeMenu .sort ul li span:hover {
+            color: #4E99FF;
+            cursor: pointer;
+        }
+
+        .panel .treeMenu .sort ul li input {
+            width: 17vw;
+            border-radius: 2px;
+            border: 1px solid #D9D9D9;
+            height: 20px;
+        }
+
+        .panel .operate {
+            width: 80vw;
+            overflow-y: auto;
+        }
+
+        .panel .operate .navigation {
+            width: 50%;
+            float: left;
+            margin-left: 10px;
+        }
+
+        .panel .operate .navigation span {
+            line-height: 4vh;
+        }
+
+        .panel .operate .navigation .title {
+            border: 1px solid #D9D9D9;
+            height: 3vh;
+            width: 80%;
+            border-radius: 3px;
+        }
+
+        .panel .operate .minmenu {
+            border-top: 1px solid #D9D9D9;
+            border-bottom: 1px solid #D9D9D9;
+            text-align: right;
+            width: 100%;
+            height: 4vh;
+        }
+
+        .panel .operate .minmenu div {
+            display: inline-block;
+            margin: 3px 10px;
+            padding: 2px 10px;
+            border-radius: 2px;
+            border: 1px solid #F9FAFB;
+        }
+
+        .panel .operate .minmenu div:hover {
+            border: 1px solid #E2E2E2;
+            color: #4E99FF;
+            cursor: pointer;
+        }
+
+        .panel .operate .minmenu div i {
+            font-size: 1rem;
+            color: #626262;
+            margin-right: 5px;
+        }
+
+        .panel .operate .minmenu div .fa-home {
+            font-size: 1.1rem;
+        }
+
+
+    </style>
+</head>
+<body>
+<div class="menuBar">
+    <div class="log">
+        11111
+    </div>
+    <div class="menu">
+        <div>
+            <i class="fa fa-newspaper-o"></i><br>
+            <span>阅读文档</span>
+        </div>
+        <div class="managementDocument">
+            <i class="fa fa-paste"></i><br>
+            <span>管理文档</span>
+        </div>
+    </div>
+</div>
+<div class="panel">
+    <div class="treeMenu">
+        <div class="minmenu">
+            <i class="fa fa-align-justify"></i>
+            <ul class="divSort">
+                <li class="addDocument">新增文档</li>
+                <li class="addSon">新增子级</li>
+            </ul>
+        </div>
+        <div class="sort">
+            <input class="fileId" type="hidden" value="">
+            <ul>
+
+            </ul>
+        </div>
+    </div>
+    <div class="operate">
+        <div class="navigation">
+            <span>标题：</span>
+            <input class="title" type="text">
+        </div>
+        <div class="minmenu">
+            <div class="save">
+                <i class="fa fa-floppy-o"></i>
+                <span>保存</span>
+            </div>
+            <div class="delete">
+                <i class="fa fa fa-close"></i>
+                <span>删除</span>
+            </div>
+        </div>
+        <input type="hidden" class="superId"/>
+        <input type="hidden" class="id"/>
+        <div class="operate_content">
+            <textarea id="editable">
+
+            </textarea>
+        </div>
+
+    </div>
+</div>
+</body>
+<script type="text/javascript" src="js/jquery.js"></script>
+<script type="text/javascript" src="tinymce/tinymce.min.js"></script>
+<script type="text/javascript" src="js/util.js"></script>
+<script type="text/javascript">
+
+    tinymce.init({
+        selector: '#editable',
+        language: 'zh_CN',
+        theme: 'modern',
+        plugins: [
+            'advlist autolink link image lists charmap print preview hr anchor pagebreak spellchecker',
+            'searchreplace wordcount visualblocks visualchars code fullscreen insertdatetime media nonbreaking',
+            'save table contextmenu directionality emoticons template paste textcolor autoresize colorpicker'
+        ],
+        autoresize_bottom_margin: 0,
+        autoresize_max_height: 500,
+        toolbar: 'insertfile undo redo | fontselect | fontsizeselect | styleselect | bold italic | alignleft aligncenter alignright alignjustify | bullist numlist outdent indent | link image | print preview media fullpage | forecolor backcolor emoticons fullscreen'
+    });
+
+
+
+
+
+    $(document).ready(function () {
+
+        var filesId = getQueryString("filesId");//获取url参数值
+        $(".fileId").val(filesId);
+
+
+        $(".addDocument").click(function () {
+            addDocument();
+        });
+
+        $(".addSon").click(function () {
+            addSonDocument();
+        });
+
+        $(".save").click(function () {
+            updateDocument();
+        });
+
+        $(".delete").click(function () {
+            deleteNotes();
+        });
+
+
+        selectTile();
+
+    });
+    
+    
+    
+    
+    
+    //设置弹窗显示和隐藏
+    function showSort() {
+        var a = $(".divSort");
+        if (a.css("display") == "block") {
+            a.hide();
+            $(".fa-align-justify").css({"color": "#626262"});
+        } else {
+            a.show();
+            $(".fa-align-justify").css({"color": "#FD7209"});
+        }
+    }
+
+
+
+    //点击添加文章处理函数
+    function addDocument() {
+        showSort();
+        $(".title").val("未定义标题");
+        $(".id").val("");
+        $(".superId").val("");
+        tinymce.get('editable').setContent("");
+        insertDocument();
+    }
+
+
+    //点击添加子级文章处理函数
+    function addSonDocument(){
+        showSort();
+        $(".title").val("未定义标题");
+        $(".id").val("");
+        tinymce.get('editable').setContent("");
+        insertDocument();
+    }
+
+
+
+
+    $(".fa-align-justify").click(function(){
+        showSort();
+    });
+
+
+
+    //保存文档数据
+    function insertDocument(){
+        var fileId = $(".fileId").val();
+        var title = $(".title").val();
+        var superId = $(".superId").val();
+        var content = tinymce.get('editable').getContent();
+
+        $.ajax({
+            url : "/insertNotes",
+            type : "post",
+            data : {
+                id : id,
+                fileId : fileId,
+                title : title,
+                superId : superId,
+                content : content
+            },
+            success : function (data) {
+                if(data.b){
+                    var id = data.result;
+                    var str = "";
+                    if(superId != ''){
+                        var sonUl = $("#" + superId).children("ul");
+                        if(sonUl.length > 0){
+                            str += '<li id="' + id + '" class="titleLI"><span><i class="fa fa-minus-square-o"></i>&nbsp;&nbsp;未定义标题</span></li>';
+                            sonUl.append(str);
+                            $(".titleLI").click(function (event) {
+                                event.stopPropagation();
+                                selectedTitle(this)
+                            });
+
+                            sonUl.siblings("span").css({
+                                "color":"#424542"
+                            });
+                        }else{
+                            str += '<ul><li id="' + id + '" class="titleLI"><span><i class="fa fa-minus-square-o"></i>&nbsp;&nbsp;未定义标题</span></li></ul>';
+                            $("#" + superId).append(str);
+                            $(".titleLI").click(function (event) {
+                                event.stopPropagation();
+                                selectedTitle(this)
+                            });
+
+                            $("#" + superId + " span").css({
+                                "color":"#424542"
+                            });
+                        }
+
+                        $(".superId").val(id);
+                        $(".id").val(id);
+                        $("#" + id + " span").css({
+                            "color":"#4E99FF"
+                        });
+
+                    }else{
+                        str += '<li id="' + id + '" class="titleLI"><span><i class="fa fa-minus-square-o"></i>&nbsp;&nbsp;未定义标题</span></li>';
+                        $(".sort>ul").append(str);
+                        $(".titleLI").click(function (event) {
+                            event.stopPropagation();
+                            selectedTitle(this)
+                        });
+
+                        $(".sort span").css({
+                            "color":"#424542"
+                        });
+
+                        $(".superId").val(id);
+                        $(".id").val(id);
+                        $("#" + id + " span").css({
+                            "color":"#4E99FF"
+                        });
+                    }
+
+                }
+            }
+        });
+    }
+
+
+
+    //修改文档数据
+    function updateDocument(){
+        var id = $(".id").val();
+        var fileId = $(".fileId").val();
+        var title = $(".title").val();
+        var superId = $(".superId").val();
+        var content = tinymce.get('editable').getContent();
+
+        $.ajax({
+            url: "/updateNotes",
+            type: "post",
+            data: {
+                id: id,
+                fileId: fileId,
+                title: title,
+                superId: superId,
+                content: content
+            },
+            success: function (data) {
+                if (data.b) {
+                    var notes = selectDocument();
+                    var str = '<i class="fa fa-minus-square-o"></i>&nbsp;&nbsp;' + notes.title;
+                    $("#" + id).children("span").html(str);
+                    $(".title").val(notes.title);
+                    tinymce.get('editable').setContent(notes.content);
+                }
+            }
+        });
+    }
+
+
+
+    //获取文档标题列表
+    function selectTile(){
+        var id = $(".id").val();
+        var fileId = $(".fileId").val();
+        $.ajax({
+            url : "/selectNotesAndSonsById",
+            type : "post",
+            data : {
+                id : id,
+                fileId : fileId
+            },
+            success : function (data) {
+                if(data.b){
+                    var notes = data.result;
+                    if(id == ""){
+                        var str = "";
+                        for (var i = 0 ; i < notes.length ; i++){
+                            str += '<li id="' + notes[i].id + '" class="titleLI" onclick="selectedTitle(this , event)"><span><i class="fa fa-plus-square-o"></i>&nbsp;&nbsp;' + notes[i].title + '</span></li>';
+                        }
+                        $(".sort ul").append(str);
+                    }else{
+                        $(".title").val(notes.notes.title);
+                        var content = notes.notes.content;
+                        tinymce.get('editable').setContent(content);
+
+
+                        var son = notes.sonNotes;
+                        var str = "<ul>";
+                        for (var i = 0 ; i < son.length ; i++){
+                            str += '<li id="' + son[i].id + '" class="titleLI" onclick="selectedTitle(this , event)"><span><i class="fa fa-plus-square-o"></i>&nbsp;&nbsp;' + son[i].title + '</span></li>';
+                        }
+                        $("#" + id).append(str + "</ul>");
+                    }
+
+
+                }
+            }
+        });
+    }
+
+
+    //根据id查询文档数据
+    function selectDocument(){
+        var notes = null;
+        var id = $(".id").val();
+        $.ajax({
+            url : "/selectNotesById",
+            type : "post",
+            async : false,
+            data : {
+                id : id
+            },
+            success : function (data) {
+                if(data.b){
+                    notes = data.result;
+                }
+            }
+        });
+        return notes;
+    }
+
+
+    //定义选中标题的处理逻辑
+    function selectedTitle(e , event) {
+        event.stopPropagation();
+        var id = $(e).attr("id");
+        $(".id").val(id);
+        $(".superId").val(id);
+
+        $(".titleLI span").css({
+            "color":"#424542"
+        });
+
+
+        var clazz = $(e).children("span").children("i").attr("class");
+        if(clazz == "fa fa-plus-square-o"){
+            $(e).children("span").children("i").attr("class","fa fa-minus-square-o");
+            $(e).children("span").css({
+                "color":"#4E99FF"
+            });
+
+            selectTile();
+
+        }else{
+            $(e).children("span").children("i").attr("class","fa fa-plus-square-o");
+            $(e).children("span").css({
+                "color":"#424542"
+            });
+
+            $(".id").val("");
+            $(".superId").val("");
+            tinymce.get('editable').setContent("");
+
+            $(e).children("ul").remove();
+        }
+
+    }
+
+
+
+    //删除数据函数
+    function deleteNotes() {
+        var id = $(".id").val();
+        $.ajax({
+            url : "/deleteNotes",
+            type : "post",
+            data : {
+                id : id
+            },
+            success : function (data) {
+                if(data.b){
+                    var li = $("#" + id);
+                    var lis = li.siblings("li");
+                    if(lis.length > 0){
+                        li.remove();
+                    }else{
+                        li.parent("ul").siblings("span").children("i").attr("class","fa fa-plus-square-o");
+                        li.parent("ul").remove();
+                    }
+
+                    $(".id").val("");
+                    $(".superId").val("");
+                    $(".title").val("");
+                    tinymce.get('editable').setContent("");
+                }
+            }
+        });
+    }
+   
+
+
+</script>
+</html>
