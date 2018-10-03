@@ -22,12 +22,15 @@
             width: 100vw;
             box-shadow: 0px 0px 2px 2px darkgrey;
             margin-bottom: 2vh;
-            background-color: #F9FAFB;
+            background-color: #F6F6F6;
         }
 
         .menuBar .log{
+            height: 8vh;
             width: 19.8vw;
             float: left;
+            background-image: url("img/login.png");
+            background-size: 100% 8vh;
         }
 
 
@@ -205,7 +208,7 @@
 <body>
 <div class="menuBar">
     <div class="log">
-        11111
+
     </div>
     <div class="menu">
         <div class="readingDocument">
@@ -262,7 +265,7 @@
             </div>
         </div>
         <input type="hidden" class="superId" />
-        <input type="text" class="fileId" />
+        <input type="hidden" class="fileId" />
         <div class="operate_content">
 
         </div>
@@ -271,6 +274,7 @@
 </div>
 </body>
 <script type="text/javascript" src="js/jquery.js"></script>
+<script type="text/javascript" src="js/util.js"></script>
 <script type="text/javascript">
     $(document).ready(function () {
         
@@ -367,7 +371,7 @@
 
         //ajax处理
         $.ajax({
-            url : url,
+            url : projectName + url,
             type : "post",
             data : {
                 id : id,
@@ -416,7 +420,7 @@
      */
     function selectAllSort(){
         $.ajax({
-            url : "/selectAllSort",
+            url : projectName + "/selectAllSort",
             type : "post",
             success : function (data) {
                 if(data.b == true){
@@ -462,7 +466,7 @@
             return;
         }
         $.ajax({
-            url : "/deleteSort",
+            url : projectName + "/deleteSort",
             type : "post",
             data : {
                 id : id
@@ -522,7 +526,7 @@
         }
         //ajax处理
         $.ajax({
-            url : url,
+            url : projectName + url,
             type : "post",
             data : {
                 id : id,
@@ -546,7 +550,7 @@
         var superId = $(".superId").val();
         var sortId = $(".sortId").val();
         $.ajax({
-            url : "/selectFilesBySuperIdOrSortId",
+            url : projectName + "/selectFilesBySuperIdOrSortId",
             type : "post",
             data : {
                 superId : superId,
@@ -643,7 +647,7 @@
     function selectAncestor(){
         var id = $(".superId").val();
         $.ajax({
-            url : "/selectAncestor",
+            url : projectName + "/selectAncestor",
             type : "post",
             data : {
                 id : id
@@ -689,7 +693,7 @@
             alert("请选择需要删除的文件");
         }else{
             $.ajax({
-                url : "/deleteFilesById",
+                url : projectName + "/deleteFilesById",
                 type : "post",
                 data : {
                     id : id

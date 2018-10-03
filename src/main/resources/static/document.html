@@ -23,12 +23,15 @@
             width: 100vw;
             box-shadow: 0px 0px 2px 2px darkgrey;
             margin-bottom: 2vh;
-            background-color: #F9FAFB;
+            background-color: #F6F6F6;
         }
 
         .menuBar .log {
+            height: 8vh;
             width: 19.8vw;
             float: left;
+            background-image: url("img/login.png");
+            background-size: 100% 8vh;
         }
 
         .menuBar .menu {
@@ -203,7 +206,7 @@
 <body>
 <div class="menuBar">
     <div class="log">
-        11111
+
     </div>
     <div class="menu">
         <div>
@@ -363,7 +366,7 @@
         var content = tinymce.get('editable').getContent();
 
         $.ajax({
-            url : "/insertNotes",
+            url : projectName + "/insertNotes",
             type : "post",
             data : {
                 id : id,
@@ -443,7 +446,7 @@
         var content = tinymce.get('editable').getContent();
 
         $.ajax({
-            url: "/updateNotes",
+            url: projectName + "/updateNotes",
             type: "post",
             data: {
                 id: id,
@@ -471,7 +474,7 @@
         var id = $(".id").val();
         var fileId = $(".fileId").val();
         $.ajax({
-            url : "/selectNotesAndSonsById",
+            url : projectName + "/selectNotesAndSonsById",
             type : "post",
             data : {
                 id : id,
@@ -512,7 +515,7 @@
         var notes = null;
         var id = $(".id").val();
         $.ajax({
-            url : "/selectNotesById",
+            url : projectName + "/selectNotesById",
             type : "post",
             async : false,
             data : {
@@ -570,7 +573,7 @@
     function deleteNotes() {
         var id = $(".id").val();
         $.ajax({
-            url : "/deleteNotes",
+            url : projectName + "/deleteNotes",
             type : "post",
             data : {
                 id : id

@@ -1,4 +1,6 @@
 
+var projectName = "";
+// var projectName = "/study_notes";
 
 //获取url中的参数
 function getQueryString(name) {
