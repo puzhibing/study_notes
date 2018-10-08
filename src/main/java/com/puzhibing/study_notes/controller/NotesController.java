@@ -7,7 +7,9 @@ import com.puzhibing.study_notes.utils.NotesResponse;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.multipart.MultipartFile;
 
+import javax.servlet.http.HttpServletRequest;
 import java.util.Map;
 
 @RestController
@@ -71,5 +73,15 @@ public class NotesController {
         return notesServiceImpl.selectNotesById(id);
     }
 
+
+    /**
+     * 上传文件
+     * @param file
+     * @return
+     */
+    @RequestMapping(value = "/uploadFile")
+    public NotesResponse<Object> uploadFile(MultipartFile file , HttpServletRequest request){
+        return notesServiceImpl.uploadFile(file , request);
+    }
 
 }

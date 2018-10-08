@@ -10,7 +10,14 @@ import com.puzhibing.study_notes.utils.UUIDUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.util.StringUtils;
+import org.springframework.web.multipart.MultipartFile;
 
+import javax.servlet.ServletRequest;
+import javax.servlet.http.HttpServletRequest;
+import java.io.File;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.OutputStream;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -181,6 +188,35 @@ public class NotesServiceImpl implements NotesService {
             }catch (Exception e){
                 notesResponse.setB(false);
                 notesResponse.setResult(null);
+                e.printStackTrace();
+            }
+        }
+        return notesResponse;
+    }
+
+
+    /**
+     * 上传文件
+     * @param file
+     * @return
+     */
+    @Override
+    public NotesResponse<Object> uploadFile(MultipartFile file , HttpServletRequest request){
+        NotesResponse<Object> notesResponse = new NotesResponse<>();
+        if(null != file){
+            String fileName = file.getOriginalFilename();
+            String newFileName = new Date().getTime() + fileName.substring(fileName.indexOf(".") , fileName.length());
+            String path = System.getProperty("catalina.home") + System.getProperty("file.separator") + "webapps" + System.getProperty("file.separator") + "studyNotesFile" + System.getProperty("file.separator") + "img";
+            System.err.println();
+            File file1 = new File(path);
+            if(!file1.exists()){//如果文件夹不存在
+                file1.mkdirs();//创建文件夹
+            }
+            try {
+                file.transferTo(new File(file1 , newFileName));
+                notesResponse.setB(true);
+                notesResponse.setResult("/studyNotesFile/img/" + newFileName);
+            } catch (IOException e) {
                 e.printStackTrace();
             }
         }

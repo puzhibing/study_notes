@@ -682,7 +682,7 @@
 
     //点击文件跳转到详情文档页面处理函数
     function fileLowerLevel(e){
-        window.open("document.html?filesId=" + $(e).attr("id"));
+        window.open("document.html?filesId=" + $(e).attr("id") + "&title=" + $(e).children("span").html());
     }
 
 

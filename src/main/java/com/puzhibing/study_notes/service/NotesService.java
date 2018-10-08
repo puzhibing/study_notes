@@ -2,7 +2,11 @@ package com.puzhibing.study_notes.service;
 
 import com.puzhibing.study_notes.pojo.Notes;
 import com.puzhibing.study_notes.utils.NotesResponse;
+import org.springframework.web.multipart.MultipartFile;
 
+import javax.servlet.ServletRequest;
+import javax.servlet.http.HttpServletRequest;
+import java.io.IOException;
 import java.util.Map;
 
 public interface NotesService {
@@ -49,4 +53,10 @@ public interface NotesService {
 
 
 
+    /**
+     * 上传文件
+     * @param file
+     * @return
+     */
+    NotesResponse<Object> uploadFile(MultipartFile file , HttpServletRequest request);
 }

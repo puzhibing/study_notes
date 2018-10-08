@@ -82,9 +82,24 @@
             border-top: 1px solid #D9D9D9;
             border-bottom: 1px solid #D9D9D9;
             border-right: 1px solid #D9D9D9;
-            text-align: right;
+            /*text-align: right;*/
             width: 100%;
             height: 4vh;
+        }
+        .panel .treeMenu .minmenu div{
+            float: left;
+            height: 4vh;
+        }
+        .panel .treeMenu .minmenu div:first-of-type{
+            width: 30%;
+            line-height: 4vh;
+        }
+        .panel .treeMenu .minmenu div:first-of-type span{
+            margin-left: 10px;
+        }
+        .panel .treeMenu .minmenu div:last-of-type{
+            text-align: right;
+            width: 70%;
         }
 
         .panel .treeMenu .minmenu i {
@@ -222,11 +237,16 @@
 <div class="panel">
     <div class="treeMenu">
         <div class="minmenu">
-            <i class="fa fa-align-justify"></i>
-            <ul class="divSort">
-                <li class="addDocument">新增文档</li>
-                <li class="addSon">新增子级</li>
-            </ul>
+            <div>
+                <span class="t"></span>
+            </div>
+            <div>
+                <i class="fa fa-align-justify"></i>
+                <ul class="divSort">
+                    <li class="addDocument">新增文档</li>
+                    <li class="addSon">新增子级</li>
+                </ul>
+            </div>
         </div>
         <div class="sort">
             <input class="fileId" type="hidden" value="">
@@ -241,6 +261,11 @@
             <input class="title" type="text">
         </div>
         <div class="minmenu">
+            <div class="upload">
+                <i class="fa fa-long-arrow-up"></i>
+                <span>上传</span>
+                <input type="file" style="display: none" id="uploadFile">
+            </div>
             <div class="save">
                 <i class="fa fa-floppy-o"></i>
                 <span>保存</span>
@@ -287,7 +312,9 @@
     $(document).ready(function () {
 
         var filesId = getQueryString("filesId");//获取url参数值
+        var title = getQueryString("title");//
         $(".fileId").val(filesId);
+        $(".t").html(title);
 
 
         $(".addDocument").click(function () {
@@ -306,6 +333,13 @@
             deleteNotes();
         });
 
+        $(".upload").click(function () {
+            upload();
+        });
+        
+        $("#uploadFile").change(function () {
+            uploadFileChange(this);
+        })
 
         selectTile();
 
@@ -360,6 +394,7 @@
 
     //保存文档数据
     function insertDocument(){
+        var id = $(".id").val();
         var fileId = $(".fileId").val();
         var title = $(".title").val();
         var superId = $(".superId").val();
@@ -599,6 +634,32 @@
     }
    
 
+
+    //上传功能
+    function upload(){
+        $("#uploadFile").val("");
+        document.getElementById("uploadFile").click();
+    }
+
+    //实现上传
+    function uploadFileChange(file){
+        var fd = new FormData();
+        fd.append("file", $(file).get(0).files[0]);
+        $.ajax({
+            url: "/uploadFile",
+            type: "POST",
+            async: false,
+            processData: false,
+            contentType: false,
+            data: fd,
+            success: function(d) {
+                if(d.b){
+                    var uri = window.location.host;
+                    alert("文件路径：http://" + uri + d.result);
+                }
+            }
+        });
+    }
 
 </script>
 </html>
